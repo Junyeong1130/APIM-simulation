@@ -5,6 +5,8 @@ library(texreg)
 getwd()
 setwd("C:/Users/junye/APIM")
 
+# you need to modify the paths for input file forms, and paths belonging to the below lines in a way you want.
+
 ################################################################################
 # k parameter method data generation
 createModels("C:/Users/junye/APIM/1.1.data_generation_KPARAM.txt")
