@@ -15,6 +15,7 @@ DATA: FILE IS apim_k_[[ratio#ration]]_s_[[sample]]_[[numbering]].dat;
 VARIABLE: NAMES ARE Y1 Y2 X1 X2;
 
 ANALYSIS: ESTIMATOR = ML;
+          BOOTSTRAP = 2000; 
 
 MODEL:
 Y1 ON X1 (A); !actor effect for member 1
@@ -26,8 +27,13 @@ X1 WITH X2; !covariance between predictors
 Y1 WITH Y2; !covariance between outcomes
 
 MODEL CONSTRAINT:
-NEW (CONTRAST COUPLE);
+NEW (CONTRAST ACTORONLY COUPLE);
 CONTRAST = A + P;
+ACTORONLY = P / A;
 COUPLE = A - P;
 
-OUTPUT: STDYX SAMPSTAT;
+OUTPUT: STDYX SAMPSTAT CINTERVAL(BCBOOTSTRAP);
+
+! If you delete 'BOOTSTRAP = 2000;' in ANALYSIS and 
+! use 'CINTERVAL' instead of 'CINTERVAL(BCBOOTSTRAP)' in OUTPUT, 
+! mplus will show the results based on the delta method.
